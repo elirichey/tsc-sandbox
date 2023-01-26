@@ -22,6 +22,10 @@ const images: Array<any> = [
   },
 ];
 
+const oneMinute: number = 1000 * 60;
+const oneHour: number = oneMinute * 60;
+const oneDay: number = oneHour * 24;
+
 const posts = [
   // Basic
   {
@@ -33,7 +37,7 @@ const posts = [
       title: 'President & CEO of TSC',
     },
     post: {
-      date: `${new Date(0)}`,
+      date: `${new Date(new Date() - oneDay)}`,
       text: 'Congrats to the Hillsborough, NC Tractor Supply (#302) for having the most sales last month!',
       attachments: null,
       link: null,
@@ -50,7 +54,7 @@ const posts = [
       title: 'Executive VP & Chief Stores Officer',
     },
     post: {
-      date: `${new Date()}`,
+      date: `${new Date(new Date().getTime() - oneHour)}`,
       text: 'The Tractor Supply Foundation is honored to support the Boys & Girls Club of Middle Tennessee this #GivingTuesday. A $50k grant will go toward new computers, a 3D printer, books, and laptops.',
       attachments: images,
       link: null,
@@ -67,7 +71,7 @@ const posts = [
       title: 'President & CEO of TSC',
     },
     post: {
-      date: `${new Date()}`,
+      date: `${new Date(new Date().getTime() - oneMinute)}`,
       text: 'As 2022 comes to a close, Tractor Supply is gearing up for a special year ahead. 2023 marks 85 years in business for our company. The coming year will be one of celebration but also excitement…',
       attachments: null,
       link: 'https://tractorsupply.com',
@@ -78,17 +82,42 @@ const posts = [
 function CommunityView(): JSX.Element {
   const {height, width} = useWindowDimensions();
 
-  const [visible, setIsVisible] = useState(true);
+  const [visible, setIsVisible] = useState(false);
   const [initialIndex, setInitialIndex] = useState(0);
 
   const styles = stylesWithProps(height, width);
+
+  const formatTimeDiff = (val: string) => {
+    const isMinute: boolean = val.includes('minute');
+    const isMinutes: boolean = val.includes('minutes');
+    const isHour: boolean = val.includes('hour');
+    const isHours: boolean = val.includes('hours');
+    const isDay: boolean = val.includes('day');
+    const isDays: boolean = val.includes('days');
+    const isYear: boolean = val.includes('year');
+    const isYears: boolean = val.includes('years');
+
+    const strippedValue: string = val.replace(/[^0-9]/g, '');
+    let result: string;
+    if (isMinute || isMinutes) {
+      if (!strippedValue) result = `0m`;
+      else result = `${strippedValue}m`;
+    } else if (isHour || isHours) result = `${strippedValue}h`;
+    else if (isDay || isDays) result = `${strippedValue}d`;
+    else if (isYear || isYears) result = `${strippedValue}y`;
+    else result = val;
+    return result;
+  };
 
   const renderItem = (val: {item: any; index: number}) => {
     const {item, index} = val;
     const {user, post} = item;
 
     const postDate = new Date(post.date);
-    const timeDiff: string = formatDistanceToNow(postDate, {locale: enUS});
+
+    const timeDiff: string = formatTimeDiff(
+      formatDistanceToNow(postDate, {locale: enUS}),
+    );
 
     const userImage: any = user?.avatar
       ? {uri: user.avatar}
@@ -168,18 +197,18 @@ function CommunityView(): JSX.Element {
             <>
               <LinkPreview
                 text={post.link}
-                renderText={() => (
-                  <Text
-                    style={styles.link_title}
-                    numberOfLines={1}
-                    ellipsizeMode="clip">
-                    {post.link}
-                  </Text>
-                )}
-                renderHeader={() => <Text>Header</Text>}
-                renderDescription={() => null}
-                containerStyle={styles.link_container}
-                textContainerStyle={styles.link_txt_container}
+                //renderText={() => (
+                //  <Text
+                //    style={styles.link_title}
+                //    numberOfLines={1}
+                //    ellipsizeMode="clip">
+                //    {post.link}
+                //  </Text>
+                //)}
+                //renderHeader={() => <Text>Header</Text>}
+                //renderDescription={() => null}
+                //containerStyle={styles.link_container}
+                //textContainerStyle={styles.link_txt_container}
                 enableAnimation
                 // renderLinkPreview={}
               />
@@ -235,6 +264,7 @@ const stylesWithProps = (height: number, width: number) => {
       borderRadius: 24,
       backgroundColor: '#F0F0F0',
       marginRight: 16,
+      marginBottom: 8,
     },
 
     user_name: {
