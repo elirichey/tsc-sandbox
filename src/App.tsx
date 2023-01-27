@@ -7,12 +7,14 @@
 
 import React from 'react';
 import {SafeAreaView, StyleSheet} from 'react-native';
-import CommunityView from './modules/Community/View/CommunityView';
+// import CommunityView from './modules/Community/View/CommunityView';
+import BenefitsView from './modules/Benefits/View/BenefitsView';
 
 function App(): JSX.Element {
   return (
     <SafeAreaView style={styles.container}>
-      <CommunityView />
+      {/* <CommunityView /> */}
+      <BenefitsView />
     </SafeAreaView>
   );
 }
