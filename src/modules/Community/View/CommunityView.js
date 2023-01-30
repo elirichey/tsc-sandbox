@@ -131,6 +131,7 @@ function CommunityView() {
           {isGallery ? (
             <>
               <Pressable
+                testID="GALLERY_TRIGGER"
                 onPress={() => {
                   setInitialIndex(0);
                   setShowLightbox(true);
@@ -143,6 +144,7 @@ function CommunityView() {
               </Pressable>
 
               <ImageView
+                testID="GALLERY_LIGHTBOX"
                 images={post.attachments}
                 imageIndex={initialIndex}
                 visible={showLightbox}
