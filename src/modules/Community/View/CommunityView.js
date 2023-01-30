@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import {enUS} from 'date-fns/locale';
 import {formatDistanceToNow} from 'date-fns';
+import RenderHtml from 'react-native-render-html';
 
 // Proposed Package - View Gallery images as Lightbox
 import ImageView from 'react-native-image-viewing';
@@ -123,7 +124,9 @@ function CommunityView() {
             <Text style={styles.post_date}>{timeDiff}</Text>
           </View>
 
-          <Text style={styles.post_body_txt}>{post?.text}</Text>
+          {/* <Text style={styles.post_body_txt}>{post?.text}</Text> */}
+
+          <RenderHtml contentWidth={width} source={{html: post.text}} />
 
           {isGallery ? (
             <>

@@ -21,7 +21,14 @@ const posts = [
     },
     post: {
       date: `${new Date(new Date() - oneDay)}`,
-      text: 'Congrats to the Hillsborough, NC Tractor Supply (#302) for having the most sales last month!',
+      // text: 'Congrats to the Hillsborough, NC Tractor Supply (#302) for having the most sales last month!',
+      text: `
+        <p style="padding-top: 0; margin: 0;">Congrats to the Hillsborough, NC Tractor Supply (#302) for having the most sales last month!</p>
+        <ul>
+          <li>Item1</li>
+          <li>Item2</li>
+          <li>Item3</li>
+        </ul>`,
       attachments: null,
       link: null,
     },

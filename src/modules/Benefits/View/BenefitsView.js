@@ -9,11 +9,12 @@ import {
   Alert,
 } from 'react-native';
 
-function CommunityView() {
+function CommunityView(props) {
   const {height, width} = useWindowDimensions();
   const styles = stylesWithProps(height, width);
 
-  const hasBenefits = true;
+  const {plan} = props;
+  const {type, provider, coverage} = plan;
 
   const renderNoBenefits = () => {
     return (
@@ -37,19 +38,21 @@ function CommunityView() {
           onPress={() => Alert.alert('Pressed')}>
           <View style={styles.red_line} />
 
-          <Text style={styles.benefits_provider}>United Healthcare</Text>
+          <Text style={styles.benefits_provider}>{provider}</Text>
 
-          <Text style={styles.benefits_plan}>Silver Plan</Text>
+          <Text style={styles.benefits_plan}>{type}</Text>
 
-          <View style={styles.coverage_type}>
-            <Text style={styles.coverage_txt}>Team Member + Family</Text>
-          </View>
+          {coverage && coverage !== '' ? (
+            <View style={styles.coverage_type}>
+              <Text style={styles.coverage_txt}>{coverage.toUpperCase()}</Text>
+            </View>
+          ) : (
+            <View style={[styles.coverage_type, styles.transparent]} />
+          )}
 
           <View style={styles.coverage_img_container}>
             <Image
-              source={{
-                uri: 'https://www.digitary.net/wp-content/uploads/2022/08/placeholder.png',
-              }}
+              source={require('./benefits-img.png')}
               style={styles.coverage_img}
             />
           </View>
@@ -66,7 +69,7 @@ function CommunityView() {
 
   return (
     <View style={styles.container}>
-      {hasBenefits ? renderBenefits() : renderNoBenefits()}
+      {plan && type ? renderBenefits() : renderNoBenefits()}
     </View>
   );
 }
@@ -144,8 +147,11 @@ const stylesWithProps = (height, width) => {
       marginBottom: 45,
     },
     coverage_type: {
+      alignSelf: 'flex-start',
       height: 24,
-      width: 163,
+      // minWidth: 163,
+      // maxWidth: 210,
+      paddingHorizontal: 16,
       alignItems: 'center',
       justifyContent: 'center',
       backgroundColor: '#FFFFFF',
@@ -158,14 +164,16 @@ const stylesWithProps = (height, width) => {
       lineHeight: 12,
       color: '#033480',
     },
+    transparent: {
+      backgroundColor: 'transparent',
+    },
 
     coverage_img_container: {
       position: 'absolute',
       height: 120,
       width: 120,
       top: 48,
-      right: -12,
-      backgroundColor: 'blue',
+      right: -14,
     },
     coverage_img: {
       height: 120,
