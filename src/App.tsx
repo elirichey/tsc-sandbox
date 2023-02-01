@@ -7,20 +7,20 @@
 
 import React from 'react';
 import {SafeAreaView, StyleSheet} from 'react-native';
-import CommunityView from './modules/Community/View/CommunityView';
-// import BenefitsView from './modules/Benefits/View/BenefitsView';
+// import CommunityView from './modules/Community/View/CommunityView';
+import BenefitsView from './modules/Benefits/View/BenefitsView';
 
 function App(): JSX.Element {
-  //const plan = {
-  //  type: 'Bronze',
-  //  provider: 'United Healthcare',
-  //  coverage: '', // 'Team Member Only', // 'Team Member + Child(ren)',
-  //};
+  const plan = {
+    type: 'Bronze',
+    provider: 'United Healthcare',
+    coverage: 'Team Member + Child(ren)', // 'Team Member Only', // 'Team Member + Child(ren)',
+  };
 
   return (
     <SafeAreaView style={styles.container}>
-      <CommunityView />
-      {/* <BenefitsView plan={plan} /> */}
+      {/* <CommunityView /> */}
+      <BenefitsView plan={plan} />
     </SafeAreaView>
   );
 }
